@@ -8,8 +8,19 @@ import { Component } from '@angular/core';
 })
 export class DropdownComponent {
   isDropdownOpen = false;
+  isHovering = false;
 
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+  openDropdown() {
+    this.isDropdownOpen = true;
+    this.isHovering = true;
+  }
+
+  closeDropdown() {
+    this.isHovering = false;
+    setTimeout(() => {
+      if (!this.isHovering) {
+        this.isDropdownOpen = false;
+      }
+    }, 200); //200ms delay to avoid instant shutdown
   }
 }

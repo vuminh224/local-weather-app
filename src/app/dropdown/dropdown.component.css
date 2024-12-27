@@ -6,7 +6,7 @@
   }
   
   .dropdown-toggle {
-    background-color: #e53c38;
+    background-color: #e53935;
     color: white;
     border: none;
     padding: 15px 50px;
@@ -14,21 +14,36 @@
     width: 100%;
     border-radius: 5px;
     border: 1px solid #a72d25;
+    
   }
   
   .dropdown-menu {
-    display : none;
+    display : block;
     position: absolute;
-    top: 125%; /* Place le menu juste en dessous du bouton */
-    right: 0%; /* Positionne le menu au centre horizontalement */
+    top: 115%;
+    right: 0%;
     text-align: center;
-    background-color: #f44336;
+    background-color: var(--mat-option-selected-state-label-text-color);
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #e4e4e4;
+    border: 1px solid var(--mdc-outlined-card-outline-color);
     width: 100%;
+    z-index: 1000;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
   }
   
   .dropdown-menu.show {
-    display: block
+    opacity: 1;
+    visibility: visible;
   }
+
+  /*
+  dynamic var :
+  text : --mat-optgroup-label-text-color
+  main background : --mdc-outlined-card-container-color
+  secondary background (ex : Curent Weather) : --mdc-elevated-card-container-color
+  couleur rouge principale : --mat-option-selected-state-label-text-color
+  */
+  
