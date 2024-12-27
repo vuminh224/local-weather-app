@@ -10,6 +10,7 @@ import { FlexModule } from '@ngbracket/ngx-layout'
 import { CitySearchComponent } from './city-search/city-search.component'
 import { CurrentWeatherComponent } from './current-weather/current-weather.component'
 import { WeatherService } from './weather/weather.service'
+import { DropdownComponent } from './dropdown/dropdown.component'
 
 const darkClassName = 'dark-theme'
 
@@ -19,13 +20,14 @@ const darkClassName = 'dark-theme'
   imports: [
     CitySearchComponent,
     CurrentWeatherComponent,
+    DropdownComponent,
     FlexModule,
     MatButtonToggleModule,
     MatCardModule,
     MatIconModule,
     MatSlideToggleModule,
     MatToolbarModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   template: `
     <mat-toolbar color="primary">
@@ -38,7 +40,12 @@ const darkClassName = 'dark-theme'
         [checked]="toggleState()"
         (change)="toggleState.set($event.checked)"></mat-slide-toggle>
       <mat-icon>bedtime</mat-icon>
+      <app-dropdown>
+      </app-dropdown>
     </mat-toolbar>
+
+
+
     <div fxLayoutAlign="center">
       <div class="mat-caption v-pad">Your city, your forecast, right now!</div>
     </div>
