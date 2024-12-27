@@ -1,7 +1,8 @@
 <div class="dropdown">
-    <button class="dropdown-toggle" (click)="toggleDropdown()">Ouvrir le menu</button>
+    <button class="dropdown-toggle" (click)="toggleDropdown()">Settings</button>
     <div class="dropdown-menu" [class.show]="isDropdownOpen">
       <!-- Composants Angular seront placés ici -->
-        Hello Wolrd
+      <ng-content></ng-content>
+      <div>TODO : °c °F</div>
     </div>
   </div>

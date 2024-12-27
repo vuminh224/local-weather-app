@@ -33,14 +33,14 @@ const darkClassName = 'dark-theme'
     <mat-toolbar color="primary">
       <span data-testid="title">LocalCast Weather</span>
       <div fxFlex></div>
-      <mat-icon>brightness_5</mat-icon>
-      <mat-slide-toggle
-        color="warn"
-        data-testid="darkmode-toggle"
-        [checked]="toggleState()"
-        (change)="toggleState.set($event.checked)"></mat-slide-toggle>
-      <mat-icon>bedtime</mat-icon>
       <app-dropdown>
+        <mat-icon>brightness_5</mat-icon>
+        <mat-slide-toggle
+          color="warn"
+          data-testid="darkmode-toggle"
+          [checked]="toggleState()"
+          (change)="toggleState.set($event.checked)"></mat-slide-toggle>
+        <mat-icon>bedtime</mat-icon>
       </app-dropdown>
     </mat-toolbar>
 
