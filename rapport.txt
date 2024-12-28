@@ -1,0 +1,1 @@
+Ajout d'un menu déroulant ("Settings" sur la page) pour y mettre le switch du darkmod (déjà existant), le but est de pouvoir y ajouter d'autre paramètre, comme un switch pour passer de °F en °c.
