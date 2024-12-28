@@ -64,9 +64,11 @@ const unitClassName = 'celcius'
     <div fxLayoutAlign="center">
       <div class="mat-caption v-pad">Your city, your forecast, right now!</div>
     </div>
+
     <div fxLayoutAlign="center">
       <app-city-search></app-city-search>
     </div>
+
     <div fxLayout="row">
       <div fxFlex></div>
       <mat-card appearance="outlined" fxFlex="300px">
@@ -75,10 +77,11 @@ const unitClassName = 'celcius'
             <div class="mat-headline-5">Current Weather</div>
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content> <app-current-weather></app-current-weather> </mat-card-content>
+        <mat-card-content> <app-current-weather></app-current-weather> </mat-card-content> <!-- TODO -->
       </mat-card>
       <div fxFlex></div>
     </div>
+
     <div
       fxLayout="column"
       fxLayoutAlign="center center"
@@ -114,7 +117,7 @@ export class AppComponent {
     })
     effect(() => {
       localStorage.setItem(unitClassName, this.togglUnit().toString())
-      document.documentElement.classList.toggle(unitClassName, this.togglUnit()) //TODO : change la class mais c'est surement pas ça, plutôt signaler au commpodent qui gère l'affichage de la météo de passer en celcius ou farenheit
+      document.documentElement.classList.toggle(unitClassName, this.togglUnit()) //TODO : change la class mais c'est surement pas ça, mais plutôt signaler avec un observable (TP Angular Q16) au commpodent qui gère l'affichage de la météo de passer en celcius ou farenheit
     })
   }
 }
