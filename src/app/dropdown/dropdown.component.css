@@ -10,8 +10,9 @@
     color: white;
     border: none;
     padding: 15px 50px;
+    border : 0;
+    margin : 10;
     cursor: pointer;
-    width: 100%;
     border-radius: 5px;
     border: 1px solid #a72d25;
     
@@ -20,11 +21,11 @@
   .dropdown-menu {
     display : block;
     position: absolute;
-    top: 115%;
+    top: 100%;
     right: 0%;
     text-align: center;
     background-color: var(--mat-option-selected-state-label-text-color);
-    padding: 10px;
+    padding: 0px;
     border-radius: 5px;
     border: 1px solid var(--mdc-outlined-card-outline-color);
     width: 100%;

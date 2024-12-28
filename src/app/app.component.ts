@@ -13,6 +13,7 @@ import { WeatherService } from './weather/weather.service'
 import { DropdownComponent } from './dropdown/dropdown.component'
 
 const darkClassName = 'dark-theme'
+const unitClassName = 'celcius'
 
 @Component({
   selector: 'app-root',
@@ -34,13 +35,27 @@ const darkClassName = 'dark-theme'
       <span data-testid="title">LocalCast Weather</span>
       <div fxFlex></div>
       <app-dropdown>
-        <mat-icon>brightness_5</mat-icon>
-        <mat-slide-toggle
-          color="warn"
-          data-testid="darkmode-toggle"
-          [checked]="toggleState()"
-          (change)="toggleState.set($event.checked)"></mat-slide-toggle>
-        <mat-icon>bedtime</mat-icon>
+
+        <div>
+          <mat-icon>brightness_5</mat-icon>
+          <mat-slide-toggle
+            color="warn"
+            data-testid="darkmode-toggle"
+            [checked]="toggleState()"
+            (change)="toggleState.set($event.checked)"></mat-slide-toggle>
+          <mat-icon>bedtime</mat-icon>
+        </div>
+
+        <div>
+          °F
+          <mat-slide-toggle
+            color="warn"
+            data-testid="unit-toggle"
+            [checked]="togglUnit()"
+            (change)="togglUnit.set($event.checked)"></mat-slide-toggle>
+            °c 
+        </div>
+
       </app-dropdown>
     </mat-toolbar>
 
@@ -90,11 +105,16 @@ const darkClassName = 'dark-theme'
 export class AppComponent {
   readonly weatherService = inject(WeatherService)
   readonly toggleState = signal(localStorage.getItem(darkClassName) === 'true')
+  readonly togglUnit = signal(localStorage.getItem(unitClassName) === 'true') 
 
   constructor() {
     effect(() => {
       localStorage.setItem(darkClassName, this.toggleState().toString())
       document.documentElement.classList.toggle(darkClassName, this.toggleState())
+    })
+    effect(() => {
+      localStorage.setItem(unitClassName, this.togglUnit().toString())
+      document.documentElement.classList.toggle(unitClassName, this.togglUnit()) //TODO : change la class mais c'est surement pas ça, plutôt signaler au commpodent qui gère l'affichage de la météo de passer en celcius ou farenheit
     })
   }
 }

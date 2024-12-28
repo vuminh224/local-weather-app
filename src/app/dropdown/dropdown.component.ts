@@ -10,10 +10,6 @@ export class DropdownComponent {
   isDropdownOpen = false;
   isHovering = false;
 
-  openDropdown() {
-    this.isDropdownOpen = true;
-    this.isHovering = true;
-  }
 
   closeDropdown() {
     this.isHovering = false;
@@ -22,5 +18,8 @@ export class DropdownComponent {
         this.isDropdownOpen = false;
       }
     }, 200); //200ms delay to avoid instant shutdown
+  }
+  switchDropDown(){
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 }

@@ -1,7 +1,6 @@
-<div class="dropdown" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()">
-    <button class="dropdown-toggle">Settings</button>
+<div class="dropdown" (mouseleave)="closeDropdown()">
+    <button class="dropdown-toggle" (click)="switchDropDown()">Settings</button>
     <div class="dropdown-menu" [class.show]="isDropdownOpen">
       <ng-content></ng-content>
-      <div>TODO : °c °F</div>
     </div>
   </div>
