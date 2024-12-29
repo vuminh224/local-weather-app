@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { effect } from '@angular/core'
 import { FlexModule } from '@ngbracket/ngx-layout'
 import { select, Store } from '@ngrx/store'
@@ -17,6 +17,7 @@ import { WeatherService } from '../weather/weather.service'
   styleUrls: ['./current-weather.component.css'],
 })
 export class CurrentWeatherComponent {
+  @Input() isCelsius = false
   usingSignal = true
   current: ICurrentWeather | null = null
   current$: Observable<ICurrentWeather>
@@ -33,6 +34,10 @@ export class CurrentWeatherComponent {
       this.usingSignal = this.weatherService.reactivityMode() === 'signal'
       this.current = this.weatherService.currentWeatherSignal()
     })
+  }
+
+  get temperatureUnit(): string {
+    return document.documentElement.classList.contains('celcius') ? '°C' : '°F'
   }
 
   // Attribution: https://stackoverflow.com/a/44418732/178620

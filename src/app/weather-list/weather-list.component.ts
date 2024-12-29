@@ -12,7 +12,7 @@ import { ICurrentWeather } from '../interfaces'
   standalone: true,
   imports: [CommonModule, FlexModule, MatButtonModule, MatCardModule, MatIconModule],
   templateUrl: './weather-list.component.html',
-  styleUrls: ['./weather-list.component.css']
+  styleUrls: ['./weather-list.component.css'],
 })
 export class WeatherListComponent {
   @Input() weatherList: ICurrentWeather[] = []

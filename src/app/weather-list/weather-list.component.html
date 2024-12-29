@@ -8,7 +8,7 @@
               {{ weather.city }}, {{ weather.country }}
             </div>
             <div class="mat-subtitle-1 no-margin" data-testid="date">
-              {{ weather.date | date: 'EEEE' }}<br>
+              {{ weather.date | date: 'EEEE' }}<br/>
               {{ weather.date | date: 'MMM d' }}{{ getOrdinal(weather.date) }}
             </div>
           </div>
@@ -48,7 +48,9 @@
     <div class="empty-state" fxLayout="column" fxLayoutAlign="center center">
       <mat-icon class="empty-icon">cloud_off</mat-icon>
       <p class="mat-headline-6">No saved locations</p>
-      <p class="mat-body-1">Use the search above to find a location and add it to your list</p>
+      <p class="mat-body-1">
+        Use the search above to find a location and add it to your list
+      </p>
     </div>
   }
 </div>

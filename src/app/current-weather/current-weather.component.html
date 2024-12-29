@@ -56,7 +56,9 @@
           <p class="mat-headline-2" data-testid="temperature">
             <!-- TODO °F to °c-->
             {{ current.temperature | number: '1.0-0' }}
-            <span class="mat-headline-4 unit">&#8457;</span>
+            <span class="mat-headline-4 unit">
+              {{ temperatureUnit }}
+            </span>
           </p>
         </div>
       </div>

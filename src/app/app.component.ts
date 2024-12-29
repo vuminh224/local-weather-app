@@ -124,21 +124,13 @@ export class AppComponent {
     })
     effect(() => {
       localStorage.setItem(unitClassName, this.togglUnit().toString())
-      document.documentElement.classList.toggle(unitClassName, this.togglUnit()) //TODO : change la class mais c'est surement pas ça, mais plutôt signaler avec un observable (TP Angular Q16) au commpodent qui gère l'affichage de la météo de passer en celcius ou farenheit
+      document.documentElement.classList.toggle(unitClassName, this.togglUnit())
+      this.weatherService.updateWeatherForCurrentLocation()
     })
   }
 
   addCurrentWeatherToList() {
-    // Get the current weather from your weather service
     const currentWeather = this.weatherService.currentWeatherSignal();
-    if (currentWeather) {
-      // Check if the city already exists in the list
-      const exists = this.weatherList.some(
-        (weather) => weather.city === currentWeather.city
-      )
-      if (!exists) {
-        this.weatherList = [...this.weatherList, currentWeather];
-      }
-    }
+    this.weatherList.push(currentWeather);
   }
 }

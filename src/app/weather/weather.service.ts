@@ -51,6 +51,8 @@ export class WeatherService implements IWeatherService {
   readonly currentWeatherSignal = signal(defaultWeather)
   readonly reactivityMode: WritableSignal<'signal' | 'subject' | 'ngrx'> =
     signal('subject')
+  private currentSearchText: string = ''
+  private currentCountry?: string
 
   constructor(
     private httpClient: HttpClient,
@@ -69,12 +71,16 @@ export class WeatherService implements IWeatherService {
   }
 
   updateCurrentWeather(searchText: string, country?: string): void {
+    this.currentSearchText = searchText
+    this.currentCountry = country
     this.getCurrentWeather(searchText, country)
       .pipe(first())
       .subscribe((weather) => this.currentWeather$.next(weather))
   }
 
   async updateCurrentWeatherSignal(searchText: string, country?: string): Promise<void> {
+    this.currentSearchText = searchText
+    this.currentCountry = country
     this.currentWeatherSignal.set(
       await this.getCurrentWeatherAsPromise(searchText, country)
     )
@@ -109,27 +115,45 @@ export class WeatherService implements IWeatherService {
 
   private getCurrentWeatherHelper(uriParams: HttpParams): Observable<ICurrentWeather> {
     uriParams = uriParams.set('appid', environment.appId)
-
+    const useCelsius = document.documentElement.classList.contains('celcius')
     return this.httpClient
       .get<ICurrentWeatherData>(
         `${environment.baseUrl}api.openweathermap.org/data/2.5/weather`,
         { params: uriParams }
       )
-      .pipe(map((data) => this.transformToICurrentWeather(data)))
+      .pipe(map((data) => this.transformToICurrentWeather(data, useCelsius)))
   }
 
-  private transformToICurrentWeather(data: ICurrentWeatherData): ICurrentWeather {
+  private transformToICurrentWeather(
+    data: ICurrentWeatherData,
+    useCelsius: boolean
+  ): ICurrentWeather {
+    const kelvinTemp = data.main.temp
     return {
       city: data.name,
       country: data.sys.country,
       date: data.dt * 1000,
       image: `${environment.baseUrl}openweathermap.org/img/w/${data.weather[0].icon}.png`,
-      temperature: this.convertKelvinToFahrenheit(data.main.temp),
+      temperature: useCelsius
+        ? this.convertKelvinToCelsius(kelvinTemp)
+        : this.convertKelvinToFahrenheit(kelvinTemp),
       description: data.weather[0].description,
+    }
+  }
+
+  updateWeatherForCurrentLocation(): void {
+    if (this.currentSearchText) {
+      this.getCurrentWeather(this.currentSearchText, this.currentCountry)
+        .pipe(first())
+        .subscribe((weather) => this.currentWeather$.next(weather))
     }
   }
 
   private convertKelvinToFahrenheit(kelvin: number): number {
     return (kelvin * 9) / 5 - 459.67
+  }
+
+  private convertKelvinToCelsius(kelvin: number): number {
+    return kelvin - 273.15
   }
 }
