@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Component, effect, inject, signal } from '@angular/core'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatCardModule } from '@angular/material/card'
@@ -9,8 +10,10 @@ import { FlexModule } from '@ngbracket/ngx-layout'
 
 import { CitySearchComponent } from './city-search/city-search.component'
 import { CurrentWeatherComponent } from './current-weather/current-weather.component'
-import { WeatherService } from './weather/weather.service'
 import { DropdownComponent } from './dropdown/dropdown.component'
+import { ICurrentWeather } from './interfaces'
+import { WeatherService } from './weather/weather.service'
+import { WeatherListComponent } from './weather-list/weather-list.component'
 
 const darkClassName = 'dark-theme'
 const unitClassName = 'celcius'
@@ -28,14 +31,14 @@ const unitClassName = 'celcius'
     MatIconModule,
     MatSlideToggleModule,
     MatToolbarModule,
-    MatTooltipModule
-  ],
+    MatTooltipModule,
+    WeatherListComponent,
+],
   template: `
     <mat-toolbar color="primary">
       <span data-testid="title">LocalCast Weather</span>
       <div fxFlex></div>
       <app-dropdown>
-
         <div>
           <mat-icon>brightness_5</mat-icon>
           <mat-slide-toggle
@@ -53,13 +56,10 @@ const unitClassName = 'celcius'
             data-testid="unit-toggle"
             [checked]="togglUnit()"
             (change)="togglUnit.set($event.checked)"></mat-slide-toggle>
-            °c 
+          °C
         </div>
-
       </app-dropdown>
     </mat-toolbar>
-
-
 
     <div fxLayoutAlign="center">
       <div class="mat-caption v-pad">Your city, your forecast, right now!</div>
@@ -67,6 +67,12 @@ const unitClassName = 'celcius'
 
     <div fxLayoutAlign="center">
       <app-city-search></app-city-search>
+    </div>
+    <div fxLayoutAlign="center">
+      <app-weather-list [weatherList]="weatherList"></app-weather-list>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin: 16px 0;">
+      <button mat-raised-button color="primary" (click)="addCurrentWeatherToList()">Add Current Weather</button>
     </div>
 
     <div fxLayout="row">
@@ -108,7 +114,8 @@ const unitClassName = 'celcius'
 export class AppComponent {
   readonly weatherService = inject(WeatherService)
   readonly toggleState = signal(localStorage.getItem(darkClassName) === 'true')
-  readonly togglUnit = signal(localStorage.getItem(unitClassName) === 'true') 
+  readonly togglUnit = signal(localStorage.getItem(unitClassName) === 'true')
+  weatherList: ICurrentWeather[] = []
 
   constructor() {
     effect(() => {
@@ -119,5 +126,19 @@ export class AppComponent {
       localStorage.setItem(unitClassName, this.togglUnit().toString())
       document.documentElement.classList.toggle(unitClassName, this.togglUnit()) //TODO : change la class mais c'est surement pas ça, mais plutôt signaler avec un observable (TP Angular Q16) au commpodent qui gère l'affichage de la météo de passer en celcius ou farenheit
     })
+  }
+
+  addCurrentWeatherToList() {
+    // Get the current weather from your weather service
+    const currentWeather = this.weatherService.currentWeatherSignal();
+    if (currentWeather) {
+      // Check if the city already exists in the list
+      const exists = this.weatherList.some(
+        (weather) => weather.city === currentWeather.city
+      )
+      if (!exists) {
+        this.weatherList = [...this.weatherList, currentWeather];
+      }
+    }
   }
 }

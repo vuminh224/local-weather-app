@@ -53,14 +53,15 @@
             [alt]="current.description" />
         </div>
         <div fxFlex class="right no-margin">
-          <p class="mat-headline-2" data-testid="temperature"> <!-- TODO °F to °c-->
+          <p class="mat-headline-2" data-testid="temperature">
+            <!-- TODO °F to °c-->
             {{ current.temperature | number: '1.0-0' }}
             <span class="mat-headline-4 unit">&#8457;</span>
           </p>
         </div>
       </div>
       <div fxLayoutAlign="center" class="mat-caption" data-testid="description">
-        {{ current.description }} 
+        {{ current.description }}
       </div>
     </div>
   }
