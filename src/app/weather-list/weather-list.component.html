@@ -2,43 +2,43 @@
   @for (weather of weatherList; track weather.city; let i = $index) {
     <mat-card appearance="outlined" class="weather-card">
       <mat-card-content>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <div fxFlex="66%" class="location-info">
-            <div class="mat-headline-6 no-margin" data-testid="city">
-              {{ weather.city }}, {{ weather.country }}
+        <div>
+          <div fxLayout="row">
+            <div fxFlex="66%" class="mat-headline-6 no-margin" data-testid="city">
+              {{ weather.city }},
+              {{ weather.country }}
             </div>
-            <div class="mat-subtitle-1 no-margin" data-testid="date">
-              {{ weather.date | date: 'EEEE' }}<br/>
-              {{ weather.date | date: 'MMM d' }}{{ getOrdinal(weather.date) }}
+            <div fxFlex class="mat-subtitle-1 no-margin" data-testid="date">
+              {{ weather.date | date: 'EEEE' }}<br />{{ weather.date | date: 'MMM d'
+              }}{{ getOrdinal(weather.date) }}
             </div>
           </div>
-
-          <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="weather-info">
-            <img
-              data-testid="weather-icon"
-              [src]="weather.image"
-              [alt]="weather.description"
-              class="weather-icon" />
-
-            <div class="temperature-info">
-              <p class="mat-headline-2 no-margin" data-testid="temperature">
+          <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: -48px">
+            <div fxFlex="55%">
+              <img
+                data-testid="weather-icon"
+                style="zoom: 175%; margin-bottom: 32px"
+                [src]="weather.image"
+                [alt]="weather.description" />
+            </div>
+            <div fxFlex class="right no-margin">
+              <p class="mat-headline-2" data-testid="temperature">
                 {{ weather.temperature | number: '1.0-0' }}
-                <span class="mat-headline-4 unit">&#8457;</span>
+                <span class="mat-headline-4 unit">{{ getTemperatureUnit(weather) }}</span>
               </p>
-              <div class="mat-caption" data-testid="description">
-                {{ weather.description }}
-              </div>
             </div>
-
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="removeWeather(i)"
-              class="remove-button"
-              data-testid="remove-weather">
-              <mat-icon>close</mat-icon>
-            </button>
           </div>
+          <div fxLayoutAlign="center" class="mat-caption" data-testid="description">
+            {{ weather.description }}
+          </div>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="removeWeather(i)"
+            class="remove-button"
+            data-testid="remove-weather">
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
       </mat-card-content>
     </mat-card>

@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Component, effect, inject, signal } from '@angular/core'
+import {MatButtonModule} from '@angular/material/button'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
@@ -33,6 +34,7 @@ const unitClassName = 'celcius'
     MatToolbarModule,
     MatTooltipModule,
     WeatherListComponent,
+    MatButtonModule
 ],
   template: `
     <mat-toolbar color="primary">
@@ -66,13 +68,17 @@ const unitClassName = 'celcius'
     </div>
 
     <div fxLayoutAlign="center">
-      <app-city-search></app-city-search>
+      <app-city-search (searchEvent)="handleSearch($event)"></app-city-search>
     </div>
+
     <div fxLayoutAlign="center">
       <app-weather-list [weatherList]="weatherList"></app-weather-list>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center" style="margin: 16px 0;">
-      <button mat-raised-button color="primary" (click)="addCurrentWeatherToList()">Add Current Weather</button>
+
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin: 15px 0">
+      <button mat-stroked-button (click)="addCurrentWeatherToList()" style="width : 300px; height : 50px">
+        Add Current Weather
+      </button>
     </div>
 
     <div fxLayout="row">
@@ -116,6 +122,8 @@ export class AppComponent {
   readonly toggleState = signal(localStorage.getItem(darkClassName) === 'true')
   readonly togglUnit = signal(localStorage.getItem(unitClassName) === 'true')
   weatherList: ICurrentWeather[] = []
+  searchText: string = ''
+  country?: string
 
   constructor() {
     effect(() => {
@@ -128,9 +136,17 @@ export class AppComponent {
       this.weatherService.updateWeatherForCurrentLocation()
     })
   }
+  handleSearch(event: { searchText: string; country?: string }) {
+    this.searchText = event.searchText;
+    this.country = event.country;
+  }
 
   addCurrentWeatherToList() {
-    const currentWeather = this.weatherService.currentWeatherSignal();
-    this.weatherList.push(currentWeather);
+    this.weatherService.updateCurrentWeatherSignal(this.searchText, this.country).then(() => {
+      const currentWeather = this.weatherService.currentWeatherSignal();
+      if (currentWeather.city && currentWeather.city !== '--') {
+        this.weatherList.push(currentWeather)
+      }
+    })
   }
 }

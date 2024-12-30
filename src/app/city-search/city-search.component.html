@@ -23,4 +23,24 @@
       </button>
     }
   </form>
+  <div *ngIf="searchHistory.length > 0" class="search-history">
+    <h3 fxLayoutAlign="center">Search History</h3>
+    <div
+      *ngFor="let item of searchHistory"
+      class="search-history-item"
+      (click)="selectHistoryItem(item)"
+      (keydown)="onKeydown($event, item)"
+      tabindex="0"
+      fxLayoutAlign="center"
+      style="margin: 10px 0">
+      <button mat-raised-button>{{ item }}</button>
+    </div>
+    <button
+      fxLayoutAlign="center"
+      mat-flat-button
+      (click)="clear_history()"
+      style="width: 300px; height: 25px">
+      Clear search history
+    </button>
+  </div>
 </div>

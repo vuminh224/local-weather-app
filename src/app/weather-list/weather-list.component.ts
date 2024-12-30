@@ -17,11 +17,19 @@ import { ICurrentWeather } from '../interfaces'
 export class WeatherListComponent {
   @Input() weatherList: ICurrentWeather[] = []
 
+  ngOnChanges() {
+    console.log('Weather List updated:', this.weatherList)
+  }
+
   getOrdinal(date: number) {
     const n = new Date(date).getDate()
     return n > 0
       ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10]
       : ''
+  }
+
+  getTemperatureUnit(weather: ICurrentWeather): string {
+    return weather.unit === 'C' ? '°C' : '°F'
   }
 
   removeWeather(index: number) {

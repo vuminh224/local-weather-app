@@ -1,0 +1,48 @@
+.weather-list-container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.weather-card {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.right {
+  text-align: right;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.unit {
+  font-size: 0.5em;
+  vertical-align: super;
+}
+
+.remove-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: rgba(255, 0, 0, 0.54);
+}
+
+.empty-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  margin-bottom: 16px;
+}
+
+img[data-testid="weather-icon"] {
+  display: block;
+  margin: 0 auto;
+}

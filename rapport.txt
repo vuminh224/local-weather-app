@@ -1,2 +1,12 @@
 Ajout d'un menu déroulant ("Settings" sur la page) pour y mettre le switch du darkmod (déjà existant), le but est de pouvoir y ajouter d'autres paramètres, comme un switch pour passer de °F en °c.
 Le menu déroulant s'ouvre uniquement si on clique sur le bouton "Settings". Si le curseur quitte la div du menu déroulant (bouton "Settings" ou le menu en lui-même), il se ferme automatiquement, mais on peut aussi le refermer en recliquant sur le bouton "Settings". Cela semblait plus ergonomique, notamment sur mobile où il n'y a pas de curseur, donc le plus intuitif est de cliquer sur le bouton plus tôt que cliquer à l'extérieur du menu.
+
+We change city search as output to app.component ( parent - children ) to handle the search bar then add into the list of weather.
+For the list, we continue Input with the new component weather-list that we created.
+We also add new unit degree for interfaces F or C to it memorizes the choice that we use. For example,
+  if I chose °F for New York then save to the list, it stays as °F.
+  then I change to °C for Rennes then save to the list, Rennes stays as °C and New York as °F
+We use the same logic for weather-list as currentWeather: If there's nothing on the list, we add a warning.
+We change the design of the list same as the currentweather ( for the beauty )
+
+We add a search history that saves the location that it found and a button that clear everything (* ^ ω ^)

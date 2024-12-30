@@ -33,6 +33,7 @@ export const defaultWeather: ICurrentWeather = {
   image: '',
   temperature: 0,
   description: '',
+  unit: 'C',
 }
 
 export interface IWeatherService {
@@ -63,6 +64,7 @@ export class WeatherService implements IWeatherService {
     latitude: number
     longitude: number
   }): Observable<ICurrentWeather> {
+    console.log('updateCurrentWeather')
     const uriParams = new HttpParams()
       .set('lat', coords.latitude.toString())
       .set('lon', coords.longitude.toString())
@@ -71,6 +73,7 @@ export class WeatherService implements IWeatherService {
   }
 
   updateCurrentWeather(searchText: string, country?: string): void {
+    console.log('updateCurrentWeather')
     this.currentSearchText = searchText
     this.currentCountry = country
     this.getCurrentWeather(searchText, country)
@@ -79,6 +82,7 @@ export class WeatherService implements IWeatherService {
   }
 
   async updateCurrentWeatherSignal(searchText: string, country?: string): Promise<void> {
+    console.log('updateCurrentWeatherSignal')
     this.currentSearchText = searchText
     this.currentCountry = country
     this.currentWeatherSignal.set(
@@ -87,6 +91,7 @@ export class WeatherService implements IWeatherService {
   }
 
   getCurrentWeather(searchText: string, country?: string): Observable<ICurrentWeather> {
+    console.log('getCurrentWeather')
     return this.postalCodeService.resolvePostalCode(searchText).pipe(
       switchMap((postalCode) => {
         if (postalCode && postalCode !== defaultPostalCode) {
@@ -99,7 +104,6 @@ export class WeatherService implements IWeatherService {
             'q',
             country ? `${searchText},${country}` : searchText
           )
-
           return this.getCurrentWeatherHelper(uriParams)
         }
       })
@@ -110,6 +114,7 @@ export class WeatherService implements IWeatherService {
     searchText: string,
     country?: string
   ): Promise<ICurrentWeather> {
+    console.log('getCurrentWeatherAsPromise')
     return firstValueFrom(this.getCurrentWeather(searchText, country))
   }
 
@@ -129,6 +134,7 @@ export class WeatherService implements IWeatherService {
     useCelsius: boolean
   ): ICurrentWeather {
     const kelvinTemp = data.main.temp
+    const unit = useCelsius ? 'C' : 'F'
     return {
       city: data.name,
       country: data.sys.country,
@@ -138,10 +144,12 @@ export class WeatherService implements IWeatherService {
         ? this.convertKelvinToCelsius(kelvinTemp)
         : this.convertKelvinToFahrenheit(kelvinTemp),
       description: data.weather[0].description,
+      unit: unit,
     }
   }
 
   updateWeatherForCurrentLocation(): void {
+    console.log('updateWeatherForCurrentLocation')
     if (this.currentSearchText) {
       this.getCurrentWeather(this.currentSearchText, this.currentCountry)
         .pipe(first())
